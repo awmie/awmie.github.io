@@ -68,41 +68,10 @@ export default function Home() {
               Featured Projects
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Project Card 1 - Anime Waifu Chat */}
-              <SpotlightCard spotlightColor="rgba(0, 229, 255, 0.2)" rotateAmplitude={5.5} scaleOnHover={1.05}>
-                <div className="aspect-video bg-white/5 rounded-3xl mb-4 flex items-center justify-center overflow-hidden">
-                  <img
-                    src="/images/nami.jpeg"
-                    alt="Anime Waifu Chat project image"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex items-center gap-2 mb-2">
-                  <h3 className={`${dmSerifText.className} text-xl font-bold text-white`}>Anime Waifu Chat</h3>
-                  <span className="px-2 py-1 bg-red-500/20 text-red-200 text-xs rounded-full">trending</span>
-                </div>
-                <p className="text-white/80 text-sm mb-4">
-                  A free chat system possible due to g4f package (open source) integrated with simple flask app.
-                </p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="px-2 py-1 bg-blue-500/20 text-blue-200 text-xs rounded-full">
-                    Prompt Engineering
-                  </span>
-                  <span className="px-2 py-1 bg-green-500/20 text-green-200 text-xs rounded-full">Fullstack</span>
-                </div>
-                <a
-                  href="https://namiswan.vercel.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full py-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors duration-200 text-center"
-                >
-                  View Project
-                </a>
-              </SpotlightCard>
+            <div className="flex flex-wrap justify-center gap-8">
 
-              {/* Project Card 2 - Black Hole Simulation */}
-              <SpotlightCard spotlightColor="rgba(147, 51, 234, 0.2)" rotateAmplitude={5.5} scaleOnHover={1.05}>
+              {/* Project Card 1 - Black Hole Simulation */}
+              <SpotlightCard className="w-full sm:w-[calc(100%-2rem)] md:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)]" spotlightColor="rgba(147, 51, 234, 0.2)" rotateAmplitude={5.5} scaleOnHover={1.05}>
                 <div className="aspect-video bg-white/5 rounded-3xl mb-4 flex items-center justify-center overflow-hidden">
                   <img
                     src="/images/blackhole.jpeg"
@@ -129,8 +98,8 @@ export default function Home() {
                 </a>
               </SpotlightCard>
 
-              {/* Project Card 3 - MirrorVerse */}
-              <SpotlightCard spotlightColor="rgba(34, 197, 94, 0.2)" rotateAmplitude={5.5} scaleOnHover={1.05}>
+              {/* Project Card 2 - MirrorVerse */}
+              <SpotlightCard className="w-full sm:w-[calc(100%-2rem)] md:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)]" spotlightColor="rgba(34, 197, 94, 0.2)" rotateAmplitude={5.5} scaleOnHover={1.05}>
                 <div className="aspect-video bg-white/5 rounded-3xl mb-4 flex items-center justify-center overflow-hidden">
                   <img
                     src="/images/mirrorverse.jpeg"
@@ -151,6 +120,99 @@ export default function Home() {
                 </div>
                 <a
                   href="https://mirrorverse.vercel.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full py-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors duration-200 text-center"
+                >
+                  View Project
+                </a>
+              </SpotlightCard>
+              
+              {/* Project Card 3 - Kaoruko Chat */}
+              <SpotlightCard className="w-full sm:w-[calc(100%-2rem)] md:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)]" spotlightColor="rgba(236, 72, 153, 0.2)" rotateAmplitude={5.5} scaleOnHover={1.05}>
+                <div className="aspect-video bg-white/5 rounded-3xl mb-4 flex items-center justify-center overflow-hidden">
+                  <img
+                    src="/images/kaoruko.png"
+                    alt="Kaoruko Chat project image"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="flex items-center gap-2 mb-2">
+                  <h3 className={`${dmSerifText.className} text-xl font-bold text-white`}>Kaoruko Chat</h3>
+                  <span className="px-2 py-1 bg-red-500/20 text-red-200 text-xs rounded-full">trending</span>
+                </div>
+                <p className="text-white/80 text-sm mb-4">
+                  Real time reaction chat with 100 prompts/day limit. Experience interactive conversations with immediate reactions.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="px-2 py-1 bg-blue-500/20 text-blue-200 text-xs rounded-full">
+                    Prompt Engineering
+                  </span>
+                  <span className="px-2 py-1 bg-pink-500/20 text-pink-200 text-xs rounded-full">Real-time</span>
+                  <span className="px-2 py-1 bg-green-500/20 text-green-200 text-xs rounded-full">Fullstack</span>
+                </div>
+                <a
+                  href="https://kaoruko.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full py-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors duration-200 text-center"
+                >
+                  View Project
+                </a>
+              </SpotlightCard>
+              
+              {/* Project Card 4 - GroqChat UI */}
+              <SpotlightCard className="w-full sm:w-[calc(100%-2rem)] md:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)]" spotlightColor="rgba(251, 191, 36, 0.2)" rotateAmplitude={5.5} scaleOnHover={1.05}>
+                <div className="aspect-video bg-white/5 rounded-3xl mb-4 flex items-center justify-center overflow-hidden">
+                  <img
+                    src="/images/COT.png"
+                    alt="GroqChat UI project image"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <h3 className={`${dmSerifText.className} text-xl font-bold text-white mb-2`}>GroqChat UI with Chain of Thoughts</h3>
+                <p className="text-white/80 text-sm mb-4">
+                  A research project exploring chain of thought reasoning in conversational AI interfaces using Groq's API.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="px-2 py-1 bg-yellow-500/20 text-yellow-200 text-xs rounded-full">Research</span>
+                  <span className="px-2 py-1 bg-blue-500/20 text-blue-200 text-xs rounded-full">AI</span>
+                  <span className="px-2 py-1 bg-purple-500/20 text-purple-200 text-xs rounded-full">UI/UX</span>
+                </div>
+                <a
+                  href="https://chatgroq.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full py-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors duration-200 text-center"
+                >
+                  View Project
+                </a>
+              </SpotlightCard>
+              
+              {/* Project Card 5 - Anime Waifu Chat */}
+              <SpotlightCard className="w-full sm:w-[calc(100%-2rem)] md:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)]" spotlightColor="rgba(0, 229, 255, 0.2)" rotateAmplitude={5.5} scaleOnHover={1.05}>
+                <div className="aspect-video bg-white/5 rounded-3xl mb-4 flex items-center justify-center overflow-hidden">
+                  <img
+                    src="/images/nami.jpeg"
+                    alt="Anime Waifu Chat project image"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="flex items-center gap-2 mb-2">
+                  <h3 className={`${dmSerifText.className} text-xl font-bold text-white`}>Anime Waifu Chat</h3>
+                  <span className="px-2 py-1 bg-red-500/20 text-red-200 text-xs rounded-full">trending</span>
+                </div>
+                <p className="text-white/80 text-sm mb-4">
+                  A free chat system possible due to g4f package (open source) integrated with simple flask app.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="px-2 py-1 bg-blue-500/20 text-blue-200 text-xs rounded-full">
+                    Prompt Engineering
+                  </span>
+                  <span className="px-2 py-1 bg-green-500/20 text-green-200 text-xs rounded-full">Fullstack</span>
+                </div>
+                <a
+                  href="https://namiswan.vercel.app"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block w-full py-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors duration-200 text-center"

@@ -200,6 +200,7 @@ export default function DecryptedText({
               <span
                 key={`char-${index}`}
                 className={revealedIndices.has(index) || !isScrambling || !isHovering ? className : encryptedClassName}
+                style={{ opacity: revealedIndices.has(index) || !isScrambling ? 1 : 0 }}
               >
                 {char}
               </span>
@@ -224,6 +225,7 @@ export default function DecryptedText({
                   className={
                     revealedIndices.has(originalIndex) || !isScrambling || !isHovering ? className : encryptedClassName
                   }
+                  style={{ opacity: revealedIndices.has(originalIndex) || !isScrambling ? 1 : 0 }}
                 >
                   {char}
                 </span>
@@ -245,6 +247,7 @@ export default function DecryptedText({
             className={
               revealedIndices.has(originalIndex) || !isScrambling || !isHovering ? className : encryptedClassName
             }
+            style={{ opacity: revealedIndices.has(originalIndex) || !isScrambling ? 1 : 0 }}
           >
             {char}
           </span>
