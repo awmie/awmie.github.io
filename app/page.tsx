@@ -69,66 +69,7 @@ export default function Home() {
             </h2>
 
             <div className="flex flex-wrap justify-center gap-8">
-
-              {/* Project Card 1 - Black Hole Simulation */}
-              <SpotlightCard className="w-full sm:w-[calc(100%-2rem)] md:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)]" spotlightColor="rgba(147, 51, 234, 0.2)" rotateAmplitude={5.5} scaleOnHover={1.05}>
-                <div className="aspect-video bg-white/5 rounded-3xl mb-4 flex items-center justify-center overflow-hidden">
-                  <img
-                    src="/images/blackhole.jpeg"
-                    alt="Black Hole Simulation project image"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <h3 className={`${dmSerifText.className} text-xl font-bold text-white mb-2`}>Black Hole Simulation</h3>
-                <p className="text-white/80 text-sm mb-4">
-                  Real time interactive blackhole simulation with three js, with planetary and star experiments, gravity
-                  based physics.
-                </p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="px-2 py-1 bg-purple-500/20 text-purple-200 text-xs rounded-full">Maths</span>
-                  <span className="px-2 py-1 bg-cyan-500/20 text-cyan-200 text-xs rounded-full">Three.js</span>
-                </div>
-                <a
-                  href="https://blackholeinspace.vercel.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full py-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors duration-200 text-center"
-                >
-                  View Project
-                </a>
-              </SpotlightCard>
-
-              {/* Project Card 2 - MirrorVerse */}
-              <SpotlightCard className="w-full sm:w-[calc(100%-2rem)] md:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)]" spotlightColor="rgba(34, 197, 94, 0.2)" rotateAmplitude={5.5} scaleOnHover={1.05}>
-                <div className="aspect-video bg-white/5 rounded-3xl mb-4 flex items-center justify-center overflow-hidden">
-                  <img
-                    src="/images/mirrorverse.jpeg"
-                    alt="MirrorVerse project image"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <h3 className={`${dmSerifText.className} text-xl font-bold text-white mb-2`}>MirrorVerse</h3>
-                <p className="text-white/80 text-sm mb-4">
-                  Make interactive persona of anything and watch it interact with other personas.
-                </p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="px-2 py-1 bg-green-500/20 text-green-200 text-xs rounded-full">Fullstack</span>
-                  <span className="px-2 py-1 bg-orange-500/20 text-orange-200 text-xs rounded-full">API SDK</span>
-                  <span className="px-2 py-1 bg-blue-500/20 text-blue-200 text-xs rounded-full">
-                    Prompt Engineering
-                  </span>
-                </div>
-                <a
-                  href="https://mirrorverse.vercel.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full py-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors duration-200 text-center"
-                >
-                  View Project
-                </a>
-              </SpotlightCard>
-              
-              {/* Project Card 3 - Kaoruko Chat */}
+              {/* Project Card 1 - Kaoruko Chat */}
               <SpotlightCard className="w-full sm:w-[calc(100%-2rem)] md:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)]" spotlightColor="rgba(236, 72, 153, 0.2)" rotateAmplitude={5.5} scaleOnHover={1.05}>
                 <div className="aspect-video bg-white/5 rounded-3xl mb-4 flex items-center justify-center overflow-hidden">
                   <img
@@ -155,41 +96,13 @@ export default function Home() {
                   href="https://kaoruko.vercel.app/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full py-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors duration-200 text-center"
+                  className="text-white rounded-full transition-colors duration-200 text-center"
                 >
                   View Project
                 </a>
               </SpotlightCard>
-              
-              {/* Project Card 4 - GroqChat UI */}
-              <SpotlightCard className="w-full sm:w-[calc(100%-2rem)] md:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)]" spotlightColor="rgba(251, 191, 36, 0.2)" rotateAmplitude={5.5} scaleOnHover={1.05}>
-                <div className="aspect-video bg-white/5 rounded-3xl mb-4 flex items-center justify-center overflow-hidden">
-                  <img
-                    src="/images/COT.png"
-                    alt="GroqChat UI project image"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <h3 className={`${dmSerifText.className} text-xl font-bold text-white mb-2`}>GroqChat UI with Chain of Thoughts</h3>
-                <p className="text-white/80 text-sm mb-4">
-                  A research project exploring chain of thought reasoning in conversational AI interfaces using Groq's API.
-                </p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="px-2 py-1 bg-yellow-500/20 text-yellow-200 text-xs rounded-full">Research</span>
-                  <span className="px-2 py-1 bg-blue-500/20 text-blue-200 text-xs rounded-full">AI</span>
-                  <span className="px-2 py-1 bg-purple-500/20 text-purple-200 text-xs rounded-full">UI/UX</span>
-                </div>
-                <a
-                  href="https://chatgroq.vercel.app/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full py-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors duration-200 text-center"
-                >
-                  View Project
-                </a>
-              </SpotlightCard>
-              
-              {/* Project Card 5 - Anime Waifu Chat */}
+
+              {/* Project Card 2 - Anime Waifu Chat */}
               <SpotlightCard className="w-full sm:w-[calc(100%-2rem)] md:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)]" spotlightColor="rgba(0, 229, 255, 0.2)" rotateAmplitude={5.5} scaleOnHover={1.05}>
                 <div className="aspect-video bg-white/5 rounded-3xl mb-4 flex items-center justify-center overflow-hidden">
                   <img
@@ -215,7 +128,93 @@ export default function Home() {
                   href="https://namiswan.vercel.app"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full py-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors duration-200 text-center"
+                  className="text-white rounded-full transition-colors duration-200 text-center"
+                >
+                  View Project
+                </a>
+              </SpotlightCard>
+
+              {/* Project Card 3 - Black Hole Simulation */}
+              <SpotlightCard className="w-full sm:w-[calc(100%-2rem)] md:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)]" spotlightColor="rgba(147, 51, 234, 0.2)" rotateAmplitude={5.5} scaleOnHover={1.05}>
+                <div className="aspect-video bg-white/5 rounded-3xl mb-4 flex items-center justify-center overflow-hidden">
+                  <img
+                    src="/images/blackhole.jpeg"
+                    alt="Black Hole Simulation project image"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <h3 className={`${dmSerifText.className} text-xl font-bold text-white mb-2`}>Black Hole Simulation</h3>
+                <p className="text-white/80 text-sm mb-4">
+                  Real time interactive blackhole simulation with three js, with planetary and star experiments, gravity
+                  based physics.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="px-2 py-1 bg-purple-500/20 text-purple-200 text-xs rounded-full">Maths</span>
+                  <span className="px-2 py-1 bg-cyan-500/20 text-cyan-200 text-xs rounded-full">Three.js</span>
+                </div>
+                <a
+                  href="https://blackholeinspace.vercel.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white rounded-full transition-colors duration-200 text-center"
+                >
+                  View Project
+                </a>
+              </SpotlightCard>
+              
+              {/* Project Card 4 - MirrorVerse */}
+              <SpotlightCard className="w-full sm:w-[calc(100%-2rem)] md:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)]" spotlightColor="rgba(34, 197, 94, 0.2)" rotateAmplitude={5.5} scaleOnHover={1.05}>
+                <div className="aspect-video bg-white/5 rounded-3xl mb-4 flex items-center justify-center overflow-hidden">
+                  <img
+                    src="/images/mirrorverse.jpeg"
+                    alt="MirrorVerse project image"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <h3 className={`${dmSerifText.className} text-xl font-bold text-white mb-2`}>MirrorVerse</h3>
+                <p className="text-white/80 text-sm mb-4">
+                  Make interactive persona of anything and watch it interact with other personas.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="px-2 py-1 bg-green-500/20 text-green-200 text-xs rounded-full">Fullstack</span>
+                  <span className="px-2 py-1 bg-orange-500/20 text-orange-200 text-xs rounded-full">API SDK</span>
+                  <span className="px-2 py-1 bg-blue-500/20 text-blue-200 text-xs rounded-full">
+                    Prompt Engineering
+                  </span>
+                </div>
+                <a
+                  href="https://mirrorverse.vercel.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white rounded-full transition-colors duration-200 text-center"
+                >
+                  View Project
+                </a>
+              </SpotlightCard>
+              
+              {/* Project Card 5 - GroqChat UI */}
+              <SpotlightCard className="w-full sm:w-[calc(100%-2rem)] md:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)]" spotlightColor="rgba(251, 191, 36, 0.2)" rotateAmplitude={5.5} scaleOnHover={1.05}>
+                <div className="aspect-video bg-white/5 rounded-3xl mb-4 flex items-center justify-center overflow-hidden">
+                  <img
+                    src="/images/COT.png"
+                    alt="GroqChat UI project image"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <h3 className={`${dmSerifText.className} text-xl font-bold text-white mb-2`}>GroqChat UI with Chain of Thoughts</h3>
+                <p className="text-white/80 text-sm mb-4">
+                  A research project exploring chain of thought reasoning in conversational AI interfaces using Groq's API.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="px-2 py-1 bg-yellow-500/20 text-yellow-200 text-xs rounded-full">Research</span>
+                  <span className="px-2 py-1 bg-blue-500/20 text-blue-200 text-xs rounded-full">AI</span>
+                  <span className="px-2 py-1 bg-purple-500/20 text-purple-200 text-xs rounded-full">UI/UX</span>
+                </div>
+                <a
+                  href="https://chatgroq.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white rounded-full transition-colors duration-200 text-center"
                 >
                   View Project
                 </a>
