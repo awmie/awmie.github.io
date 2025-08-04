@@ -73,8 +73,9 @@ void main() {
   float tOffset    = uSpeed * uTime;
 
   tex.y += 0.03 * sin(8.0 * tex.x - tOffset);
-  float pattern = 0.6 +
-                  0.4 * sin(5.0 * (tex.x + tex.y +
+  // Modified to keep only the brighter parts of the pattern
+  float pattern = 0.85 +
+                  0.15 * sin(5.0 * (tex.x + tex.y +
                                    cos(3.0 * tex.x + 5.0 * tex.y) +
                                    0.02 * tOffset) +
                            sin(20.0 * (tex.x + tex.y - 0.1 * tOffset)));
@@ -98,15 +99,16 @@ const SilkPlane = forwardRef<Mesh, SilkPlaneProps>(function SilkPlane({ uniforms
     }
   }, [ref, viewport])
 
-  useFrame((_state, delta) => {
-    const mesh = ref as React.MutableRefObject<Mesh | null>
-    if (mesh.current) {
-      const material = mesh.current.material as ShaderMaterial & {
-        uniforms: SilkUniforms
-      }
-      material.uniforms.uTime.value += 0.1 * delta
-    }
-  })
+  // Animation removed to keep background consistently bright
+  // useFrame((_state, delta) => {
+  //   const mesh = ref as React.MutableRefObject<Mesh | null>
+  //   if (mesh.current) {
+  //     const material = mesh.current.material as ShaderMaterial & {
+  //       uniforms: SilkUniforms
+  //     }
+  //     material.uniforms.uTime.value += 0.1 * delta
+  //   }
+  // })
 
   return (
     <mesh ref={ref}>
@@ -141,7 +143,7 @@ const Silk: React.FC<SilkProps> = ({
       uNoiseIntensity: { value: noiseIntensity },
       uColor: { value: new Color(...hexToNormalizedRGB(color)) },
       uRotation: { value: rotation },
-      uTime: { value: 0 }, // uTime is initialized to 0 and will not change
+      uTime: { value: 15 }, // Fixed value to keep the brightest part of the pattern
     }),
     [speed, scale, noiseIntensity, color, rotation],
   )
