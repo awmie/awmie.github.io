@@ -22,8 +22,11 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
+        "dm-serif": ["var(--font-dm-serif)", "serif"],
+        "space-mono": ["var(--font-space-mono)", "monospace"],
         boldonse: ["Boldonse", "sans-serif"],
-        "space-mono": ["Space Mono", "monospace"], // Correctly defined Space Mono font
+        serif: ["var(--font-dm-serif)", "serif"],
+        mono: ["var(--font-space-mono)", "monospace"],
       },
       colors: {
         background: "hsl(var(--background))",

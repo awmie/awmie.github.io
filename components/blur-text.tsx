@@ -70,7 +70,13 @@ const BlurText: React.FC<BlurTextProps> = ({
 
     observer.observe(ref.current)
 
-    return () => observer.disconnect()
+    // Fallback: force inView after 500ms
+    const timeout = setTimeout(() => setInView(true), 500)
+
+    return () => {
+      observer.disconnect()
+      clearTimeout(timeout)
+    }
   }, [threshold, rootMargin])
 
   const defaultFrom = useMemo(
