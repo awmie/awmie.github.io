@@ -122,6 +122,34 @@ function Moon({ size, speed, distance, color }: { size: number; speed: number; d
   )
 }
 
+function PlanetLabel({ name, yOffset }: { name: string; yOffset: number }) {
+  const canvas = useMemo(() => {
+    if (typeof document === "undefined") return null
+    const canvas = document.createElement("canvas")
+    canvas.width = 256
+    canvas.height = 64
+    const ctx = canvas.getContext("2d")
+    if (ctx) {
+      ctx.font = "bold 40px Inter, system-ui, sans-serif"
+      ctx.fillStyle = "white"
+      ctx.textAlign = "center"
+      ctx.textBaseline = "middle"
+      ctx.fillText(name, 128, 32)
+    }
+    return canvas
+  }, [name])
+
+  if (!canvas) return null
+
+  return (
+    <sprite position={[0, yOffset, 0]} scale={[2, 0.5, 1]}>
+      <spriteMaterial transparent opacity={0.6} depthWrite={false} blending={THREE.AdditiveBlending}>
+        <canvasTexture attach="map" image={canvas} />
+      </spriteMaterial>
+    </sprite>
+  )
+}
+
 function Planet({
   distance,
   speed,
@@ -131,6 +159,7 @@ function Planet({
   hasRing = false,
   moons = 0,
   axisTilt = 0,
+  name,
 }: {
   distance: number
   speed: number
@@ -140,6 +169,7 @@ function Planet({
   hasRing?: boolean
   moons?: number
   axisTilt?: number
+  name: string
 }) {
   const groupRef = useRef<THREE.Group>(null)
   const planetRef = useRef<THREE.Group>(null)
@@ -160,7 +190,7 @@ function Planet({
     <group>
       {/* Orbit Path */}
       <mesh rotation={[-Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[distance, 0.02, 32, 100]} />
+        <torusGeometry args={[distance, 0.0005, 2, 10000]} />
         <meshBasicMaterial color={orbitColor} opacity={0.05} transparent wireframe />
       </mesh>
 
@@ -198,6 +228,7 @@ function Planet({
               />
             ))}
         </group>
+        <PlanetLabel name={name} yOffset={size + 1} />
       </group>
     </group>
   )
@@ -213,10 +244,13 @@ function Sun() {
   })
 
   return (
-    <mesh ref={meshRef}>
-      <sphereGeometry args={[2.5, 32, 32]} />
-      <meshBasicMaterial color="#FDB813" wireframe transparent opacity={0.25} />
-    </mesh>
+    <group>
+      <mesh ref={meshRef}>
+        <sphereGeometry args={[2.5, 32, 32]} />
+        <meshBasicMaterial color="#FDB813" wireframe transparent opacity={0.25} />
+      </mesh>
+      <PlanetLabel name="Sun" yOffset={4} />
+    </group>
   )
 }
 
@@ -238,28 +272,28 @@ function Scene() {
       <Sun />
       
       {/* Mercury */}
-      <Planet distance={4} speed={0.8} size={0.2} planetColor="#A5A5A5" />
+      <Planet distance={4} speed={0.8} size={0.2} planetColor="#A5A5A5" name="Mercury" />
       
       {/* Venus */}
-      <Planet distance={6} speed={0.6} size={0.4} planetColor="#E3BB76" axisTilt={3.0} />
+      <Planet distance={6} speed={0.6} size={0.4} planetColor="#E3BB76" axisTilt={3.0} name="Venus" />
       
       {/* Earth + Moon */}
-      <Planet distance={8.5} speed={0.4} size={0.45} planetColor="#22A6B3" moons={1} axisTilt={0.41} />
+      <Planet distance={8.5} speed={0.4} size={0.45} planetColor="#22A6B3" moons={1} axisTilt={0.41} name="Earth" />
       
       {/* Mars */}
-      <Planet distance={11} speed={0.3} size={0.35} planetColor="#EB4D4B" axisTilt={0.44} />
+      <Planet distance={11} speed={0.3} size={0.35} planetColor="#EB4D4B" axisTilt={0.44} name="Mars" />
       
       {/* Jupiter + Moons */}
-      <Planet distance={16} speed={0.15} size={1.2} planetColor="#D09E6D" moons={2} axisTilt={0.05} />
+      <Planet distance={16} speed={0.15} size={1.2} planetColor="#D09E6D" moons={2} axisTilt={0.05} name="Jupiter" />
       
       {/* Saturn + Rings */}
-      <Planet distance={22} speed={0.1} size={1.0} planetColor="#EAD09D" hasRing={true} axisTilt={0.47} />
+      <Planet distance={22} speed={0.1} size={1.0} planetColor="#EAD09D" hasRing={true} axisTilt={0.47} name="Saturn" />
       
       {/* Uranus */}
-      <Planet distance={28} speed={0.08} size={0.8} planetColor="#7DE2F7" axisTilt={1.71} />
+      <Planet distance={28} speed={0.08} size={0.8} planetColor="#7DE2F7" axisTilt={1.71} name="Uranus" />
       
       {/* Neptune */}
-      <Planet distance={34} speed={0.06} size={0.8} planetColor="#4265FC" axisTilt={0.5} />
+      <Planet distance={34} speed={0.06} size={0.8} planetColor="#4265FC" axisTilt={0.5} name="Neptune" />
     </group>
   )
 }
