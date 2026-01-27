@@ -30,7 +30,7 @@ export default function Home() {
             delay={150}
             animateBy="words"
             direction="top"
-            className="font-dm-serif text-6xl md:text-8xl font-normal tracking-tight text-white"
+            className="font-dm-serif text-5xl sm:text-6xl md:text-8xl font-normal tracking-tight text-white text-center"
             applyPostAnimationShiny={true}
             shineSpeed={5}
           />
