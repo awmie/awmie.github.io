@@ -59,7 +59,7 @@ export default function Home() {
           {/* Project Card 0 - ThreadAI */}
           <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.15)">
             <div className="aspect-video bg-zinc-950/80 rounded-xl mb-6 overflow-hidden border border-white/5 flex items-center justify-center group-hover:bg-zinc-900/90 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" viewBox="0 0 256 256" className="text-zinc-700 transition-all duration-500 group-hover:scale-110 group-hover:text-violet-500/50">
+              <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" viewBox="0 0 256 256" className="text-zinc-700 transition-all duration-500 group-hover:scale-110 group-hover:text-violet-100/50">
                 <path d="M200,204.5V232a8,8,0,0,1-16,0V204.5a63.67,63.67,0,0,0-35.38-57.25l-48.4-24.19A79.58,79.58,0,0,1,56,51.5V24a8,8,0,0,1,16,0V51.5a63.67,63.67,0,0,0,35.38,57.25l48.4,24.19A79.58,79.58,0,0,1,200,204.5ZM160,200H72.17a63.59,63.59,0,0,1,3.23-16h72.71a8,8,0,0,0,0-16H83.46a63.71,63.71,0,0,1,14.65-15.08A8,8,0,1,0,88.64,140,80.27,80.27,0,0,0,56,204.5V232a8,8,0,0,0,16,0V216h88a8,8,0,0,0,0-16ZM192,16a8,8,0,0,0-8,8V40H96a8,8,0,0,0,0,16h87.83a63.59,63.59,0,0,1-3.23,16H107.89a8,8,0,1,0,0,16h64.65a63.71,63.71,0,0,1-14.65,15.08,8,8,0,0,0,9.47,12.9A80.27,80.27,0,0,0,200,51.5V24A8,8,0,0,0,192,16Z"></path>
               </svg>
             </div>
@@ -91,7 +91,7 @@ export default function Home() {
           {/* Project Card - VibeChat */}
           <SpotlightCard spotlightColor="rgba(20, 184, 166, 0.15)">
             <div className="aspect-video bg-zinc-950/80 rounded-xl mb-6 overflow-hidden border border-white/5 flex items-center justify-center group-hover:bg-zinc-900/90 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" viewBox="0 0 256 256" className="text-zinc-700 transition-all duration-500 group-hover:scale-110 group-hover:text-teal-500/50">
+              <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" viewBox="0 0 256 256" className="text-zinc-700 transition-all duration-500 group-hover:scale-110 group-hover:text-teal-100/50">
                 <path d="M200,152a31.84,31.84,0,0,0-19.53,6.68l-23.11-18A31.65,31.65,0,0,0,160,128c0-.74,0-1.48-.08-2.21l13.23-4.41A32,32,0,1,0,168,104c0,.74,0,1.48.08,2.21l-13.23,4.41A32,32,0,0,0,128,96a32.59,32.59,0,0,0-5.27.44L115.89,81A32,32,0,1,0,96,88a32.59,32.59,0,0,0,5.27-.44l6.84,15.4a31.92,31.92,0,0,0-8.57,39.64L73.83,165.44a32.06,32.06,0,1,0,10.63,12l25.71-22.84a31.91,31.91,0,0,0,37.36-1.24l23.11,18A31.65,31.65,0,0,0,168,184a32,32,0,1,0,32-32Zm0-64a16,16,0,1,1-16,16A16,16,0,0,1,200,88ZM80,56A16,16,0,1,1,96,72,16,16,0,0,1,80,56ZM56,208a16,16,0,1,1,16-16A16,16,0,0,1,56,208Zm56-80a16,16,0,1,1,16,16A16,16,0,0,1,112,128Zm88,72a16,16,0,1,1,16-16A16,16,0,0,1,200,200Z"></path>
               </svg>
             </div>
@@ -157,11 +157,11 @@ export default function Home() {
 
           {/* Project Card 2 - Black Hole Simulation */}
           <SpotlightCard spotlightColor="rgba(168, 85, 247, 0.15)">
-            <div className="aspect-video bg-zinc-950/80 rounded-xl mb-6 overflow-hidden border border-white/5">
+            <div className="aspect-video bg-zinc-950/80 rounded-xl mb-6 overflow-hidden border border-white/5 flex items-center justify-center">
               <img
-                src="/images/blackhole.jpeg"
+                src="/images/blackhole.svg"
                 alt="Black Hole Simulation"
-                className="w-full h-full object-cover opacity-80 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100"
+                className="w-16 h-16 opacity-80 transition-all duration-500 group-hover:scale-110 group-hover:opacity-100"
               />
             </div>
             <div className="flex items-center justify-between mb-3">
@@ -188,11 +188,11 @@ export default function Home() {
 
           {/* Project Card 3 - GroqChat UI */}
           <SpotlightCard spotlightColor="rgba(251, 191, 36, 0.15)">
-            <div className="aspect-video bg-zinc-950/80 rounded-xl mb-6 overflow-hidden border border-white/5">
+            <div className="aspect-video bg-zinc-950/80 rounded-xl mb-6 overflow-hidden border border-white/5 flex items-center justify-center">
               <img
-                src="/images/COT.png"
+                src="/images/groqchat.svg"
                 alt="GroqChat UI"
-                className="w-full h-full object-cover opacity-80 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100"
+                className="w-16 h-16 opacity-80 transition-all duration-500 group-hover:scale-110 group-hover:opacity-100"
               />
             </div>
             <div className="flex items-center justify-between mb-3">
