@@ -21,7 +21,7 @@ function TwinklingStars({ count = 5000 }) {
       sizes[i] = Math.random() * 1.0 + 0.2; // 0.2 to 1.2
       shifts[i] = Math.random() * Math.PI
     }
-    return { positions: p, sizes, shifts }
+    return { positions: p, sizes, shifts } // Original return values
   }, [count])
 
   const materialRef = useRef<THREE.ShaderMaterial>(null)
@@ -32,11 +32,11 @@ function TwinklingStars({ count = 5000 }) {
     }
   })
 
-  // Shader for twinkling
+  // Original shader for twinkling stars with uniform white color
   const starShader = {
     uniforms: {
       uTime: { value: 0 },
-      uColor: { value: new THREE.Color("#ffffff") },
+      uColor: { value: new THREE.Color("#ffffff") }, // Uniform white color
     },
     vertexShader: `
       uniform float uTime;
@@ -58,7 +58,7 @@ function TwinklingStars({ count = 5000 }) {
       }
     `,
     fragmentShader: `
-      uniform vec3 uColor;
+      uniform vec3 uColor; // Using uniform color
       varying float vAlpha;
       void main() {
         vec2 center = gl_PointCoord - 0.5;
@@ -98,13 +98,14 @@ function TwinklingStars({ count = 5000 }) {
         transparent
         depthWrite={false}
         blending={THREE.AdditiveBlending}
+        // vertexColors={true} // Removed vertexColors as we are back to uniform color
       />
     </points>
   )
 }
 
-function Moon({ size, speed, distance, color }: { size: number; speed: number; distance: number; color: string }) {
-  const moonRef = useRef<THREE.Mesh>(null)
+function Moon({ size, speed, distance, color, name }: { size: number; speed: number; distance: number; color: string; name: string }) {
+  const moonRef = useRef<THREE.Group>(null) // Changed to Group
   
   useFrame(({ clock }) => {
     if (moonRef.current) {
@@ -115,10 +116,13 @@ function Moon({ size, speed, distance, color }: { size: number; speed: number; d
   })
 
   return (
-    <mesh ref={moonRef}>
-      <sphereGeometry args={[size, 8, 8]} />
-      <meshBasicMaterial color={color} wireframe transparent opacity={0.3} />
-    </mesh>
+    <group ref={moonRef}> {/* Attach ref to group */}
+      <mesh> {/* Planet sphere */}
+        <sphereGeometry args={[size, 8, 8]} />
+        <meshBasicMaterial color={color} wireframe transparent opacity={0.3} />
+      </mesh>
+      <PlanetLabel name={name} yOffset={size + 0.2} /> {/* Added label, adjusted yOffset */}
+    </group>
   )
 }
 
@@ -130,7 +134,7 @@ function PlanetLabel({ name, yOffset }: { name: string; yOffset: number }) {
     canvas.height = 64
     const ctx = canvas.getContext("2d")
     if (ctx) {
-      ctx.font = "bold 40px Inter, system-ui, sans-serif"
+      ctx.font = "100 32px monospace" // Thin monospace font
       ctx.fillStyle = "white"
       ctx.textAlign = "center"
       ctx.textBaseline = "middle"
@@ -175,6 +179,34 @@ function Planet({
   const planetRef = useRef<THREE.Group>(null)
   const randomOffset = useMemo(() => Math.random() * Math.PI * 2, [])
 
+  // Asteroid Ring System Hooks (kept from previous modification)
+  const ringRef = useRef<THREE.Group>(null)
+  const asteroidParticles = useMemo(() => {
+    const particles = []
+    const ringInnerRadius = size * 1.4
+    const ringOuterRadius = size * 2.4
+    const numParticles = 5000 // Number of asteroids/particles
+
+    for (let i = 0; i < numParticles; i++) {
+      const r = ringInnerRadius + Math.random() * (ringOuterRadius - ringInnerRadius)
+      const theta = Math.random() * Math.PI * 2
+      // Randomize slightly in y to give depth
+      const yOffset = (Math.random() - 0.5) * size * 0.1 
+      
+      const x = r * Math.cos(theta)
+      const z = r * Math.sin(theta)
+      particles.push(new THREE.Vector3(x, yOffset, z))
+    }
+    return particles
+  }, [size, planetColor]) // Recompute if size changes
+
+  // Optional: Add subtle animation to rings if desired
+  useFrame((state, delta) => {
+    if (ringRef.current) {
+      // ringRef.current.rotation.y += delta * 0.005 // Slow rotation if needed
+    }
+  })
+
   useFrame(({ clock }) => {
     if (groupRef.current) {
       const t = clock.getElapsedTime() * speed + randomOffset
@@ -207,26 +239,47 @@ function Planet({
               <meshBasicMaterial color={planetColor} wireframe transparent opacity={0.3} />
             </mesh>
 
-            {/* Ring (Aligned to Equator) */}
+            {/* Asteroid Ring System */}
             {hasRing && (
-              <mesh rotation={[-Math.PI / 2, 0, 0]}>
-                <ringGeometry args={[size * 1.4, size * 2.4, 32]} />
-                <meshBasicMaterial color={planetColor} wireframe side={THREE.DoubleSide} opacity={0.15} transparent />
-              </mesh>
+              <group ref={ringRef}> {/* Removed fixed rotation */}
+                <points>
+                  <bufferGeometry attach="geometry">
+                    <bufferAttribute
+                      attach="attributes-position"
+                      array={new Float32Array(asteroidParticles.flatMap(v => [v.x, v.y, v.z]))}
+                      itemSize={3}
+                      count={asteroidParticles.length}
+                    />
+                  </bufferGeometry>
+                  <pointsMaterial color={planetColor} size={0.05} sizeAttenuation={true} vertexColors={false} transparent opacity={0.7} />
+                </points>
+              </group>
             )}
           </group>
 
           {/* Moons (Orbiting in the tilted equatorial plane) */}
           {moons > 0 &&
-            Array.from({ length: moons }).map((_, i) => (
-              <Moon
-                key={i}
-                size={size * 0.1}
-                speed={(i + 1) * 1.5}
-                distance={size * 1.5 + i * 0.5}
-                color={planetColor}
-              />
-            ))}
+            Array.from({ length: moons }).map((_, i) => {
+              let moonName = "";
+              if (name === "Earth") {
+                moonName = "Moon";
+              } else if (name === "Jupiter") {
+                const jupiterMoonNames = ["Io", "Europa"]; // Using first two Galilean moons as examples
+                moonName = jupiterMoonNames[i] || `Moon ${i + 1}`; // Fallback for more moons
+              } else {
+                moonName = `Moon ${i + 1}`; // Generic name for other planets' moons
+              }
+              return (
+                <Moon
+                  key={i}
+                  size={name === "Jupiter" ? size * 0.07 : size * 0.1} // Adjusted size for Jupiter's moons
+                  speed={(i + 1) * 1.5}
+                  distance={size * 1.5 + i * 0.5}
+                  color={planetColor}
+                  name={moonName} // Pass the name
+                />
+              );
+            })}
         </group>
         <PlanetLabel name={name} yOffset={size + 1} />
       </group>
@@ -272,28 +325,28 @@ function Scene() {
       <Sun />
       
       {/* Mercury */}
-      <Planet distance={4} speed={0.8} size={0.2} planetColor="#A5A5A5" name="Mercury" />
+      <Planet distance={4} speed={0.2} size={0.2} planetColor="#A5A5A5" name="Mercury" />
       
       {/* Venus */}
-      <Planet distance={6} speed={0.6} size={0.4} planetColor="#E3BB76" axisTilt={3.0} name="Venus" />
+      <Planet distance={6} speed={0.15} size={0.4} planetColor="#E3BB76" axisTilt={3.0} name="Venus" />
       
       {/* Earth + Moon */}
-      <Planet distance={8.5} speed={0.4} size={0.45} planetColor="#22A6B3" moons={1} axisTilt={0.41} name="Earth" />
+      <Planet distance={8.5} speed={0.1} size={0.45} planetColor="#22A6B3" moons={1} axisTilt={0.41} name="Earth" />
       
       {/* Mars */}
-      <Planet distance={11} speed={0.3} size={0.35} planetColor="#EB4D4B" axisTilt={0.44} name="Mars" />
+      <Planet distance={11} speed={0.075} size={0.35} planetColor="#EB4D4B" axisTilt={0.44} name="Mars" />
       
       {/* Jupiter + Moons */}
-      <Planet distance={16} speed={0.15} size={1.2} planetColor="#D09E6D" moons={2} axisTilt={0.05} name="Jupiter" />
+      <Planet distance={16} speed={0.0375} size={1.2} planetColor="#D09E6D" moons={2} axisTilt={0.05} name="Jupiter" />
       
       {/* Saturn + Rings */}
-      <Planet distance={22} speed={0.1} size={1.0} planetColor="#EAD09D" hasRing={true} axisTilt={0.47} name="Saturn" />
+      <Planet distance={22} speed={0.025} size={1.0} planetColor="#EAD09D" hasRing={true} axisTilt={0.47} name="Saturn" />
       
       {/* Uranus */}
-      <Planet distance={28} speed={0.08} size={0.8} planetColor="#7DE2F7" axisTilt={1.71} name="Uranus" />
+      <Planet distance={28} speed={0.02} size={0.8} planetColor="#7DE2F7" axisTilt={1.71} name="Uranus" />
       
       {/* Neptune */}
-      <Planet distance={34} speed={0.06} size={0.8} planetColor="#4265FC" axisTilt={0.5} name="Neptune" />
+      <Planet distance={34} speed={0.015} size={0.8} planetColor="#4265FC" axisTilt={0.5} name="Neptune" />
     </group>
   )
 }
