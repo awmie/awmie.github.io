@@ -3,6 +3,7 @@
 import BlurText from "@/components/blur-text"
 import DecryptedText from "@/components/decrypted-text"
 import SpotlightCard from "@/components/spotlight-card"
+import DiscordStatus from "@/components/discord-status"
 import SolarSystem from "@/components/solar-system"
 
 export default function Home() {
@@ -46,6 +47,9 @@ export default function Home() {
             linkTarget="YouWare"
             linkHref="https://www.youware.com/profile/SyHjN1J4MsNe5jDG08GwmjUgv293"
           />
+          <div className="pt-2 flex justify-center animate-in fade-in zoom-in duration-1000 delay-500 fill-mode-backwards">
+            <DiscordStatus />
+          </div>
         </div>
       </section>
 
