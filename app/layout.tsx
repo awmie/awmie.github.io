@@ -1,23 +1,17 @@
 import type { Metadata } from "next";
-import { DM_Serif_Text, Space_Mono } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const dmSerifText = DM_Serif_Text({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-dm-serif",
-});
-
-const spaceMono = Space_Mono({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-space-mono",
+  weight: ["400", "500", "700"],
+  variable: "--font-mono",
 });
 
 export const metadata: Metadata = {
-  title: "Amritava Kole",
+  title: "awmie@computer:~$",
   icons: {
-    icon: "/logo.png",
+    icon: "/icon.svg",
   },
 };
 
@@ -27,8 +21,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${dmSerifText.variable} ${spaceMono.variable}`}>
-      <body className="font-mono antialiased bg-[#050505]">{children}</body>
+    <html lang="en" className={`${jetbrainsMono.variable}`}>
+      <body className="font-mono antialiased bg-black text-green-400">{children}</body>
     </html>
   );
 }

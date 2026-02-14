@@ -51,12 +51,14 @@ export default function DiscordStatus() {
               }
             }, interval)
 
-            socket.send(
-              JSON.stringify({
-                op: 2,
-                d: { subscribe_to_id: DISCORD_ID },
-              })
-            )
+            if (socket) {
+              socket.send(
+                JSON.stringify({
+                  op: 2,
+                  d: { subscribe_to_id: DISCORD_ID },
+                })
+              )
+            }
             break
 
           case 0: // Event
@@ -82,49 +84,50 @@ export default function DiscordStatus() {
     }
   }, [])
 
-  if (loading) return null
+  if (loading) return <span className="text-green-700">[connecting...]</span>
 
   const status = data?.discord_status || "offline"
-  const activity = data?.activities?.find((a) => a.type !== 4)
+  
+  const activities = data?.activities
+    ?.filter((a) => a.type !== 4)
+    ?.sort((a, b) => {
+      const aPriority = a.type === 2 ? 2 : a.type === 0 ? 1 : 0
+      const bPriority = b.type === 2 ? 2 : b.type === 0 ? 1 : 0
+      return bPriority - aPriority
+    })
+    ?.slice(0, 2) || []
 
-  const statusColor = {
-    online: "bg-green-500",
-    idle: "bg-yellow-500",
-    dnd: "bg-red-500",
-    offline: "bg-zinc-500",
+  const statusIndicator = {
+    online: "●",
+    idle: "◐",
+    dnd: "◑",
+    offline: "○",
   }
 
-  let beforeDot = ""
-  if (status === "dnd") beforeDot = "Busy"
-  else if (status === "idle") beforeDot = "Idle"
-  else if (status === "offline") beforeDot = "Offline"
-  else if (status === "online" && activity) beforeDot = "Online"
+  const statusColor = {
+    online: "text-green-400",
+    idle: "text-yellow-400",
+    dnd: "text-red-400",
+    offline: "text-gray-500",
+  }
 
   return (
-    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-colors backdrop-blur-md">
-      {beforeDot && (
-        <span className="text-[10px] font-light tracking-wider text-zinc-400 uppercase leading-none pt-px">
-          {beforeDot}
-        </span>
-      )}
+    <div className="flex items-center gap-2 text-sm">
+      <span className={`${statusColor[status]}`}>
+        {statusIndicator[status]}
+      </span>
       
-      <span className="relative flex h-1.5 w-1.5 shrink-0">
-        {status === "online" && (
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-        )}
-        <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${statusColor[status]}`}></span>
+      <span className="text-green-600">
+        discord:
+      </span>
+      
+      <span className="text-green-400">
+        {status}
       </span>
 
-      {activity && (
-        <span className="text-[10px] font-light text-zinc-400 flex items-center gap-1 leading-none pt-px">
-          <span className="opacity-70">right now on</span>
-          <span className="text-zinc-200 uppercase tracking-tight truncate max-w-[150px]">{activity.name}</span>
-        </span>
-      )}
-
-      {!beforeDot && !activity && status === "online" && (
-        <span className="text-[10px] font-light tracking-wider text-zinc-400 uppercase leading-none pt-px">
-          online
+      {activities.length > 0 && (
+        <span className="text-green-600">
+          | playing: {activities.map(a => a.name).join(", ")}
         </span>
       )}
     </div>

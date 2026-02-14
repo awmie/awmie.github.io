@@ -22,11 +22,7 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        "dm-serif": ["var(--font-dm-serif)", "serif"],
-        "space-mono": ["var(--font-space-mono)", "monospace"],
-        boldonse: ["Boldonse", "sans-serif"],
-        serif: ["var(--font-dm-serif)", "serif"],
-        mono: ["var(--font-space-mono)", "monospace"],
+        mono: ["var(--font-mono)", "JetBrains Mono", "monospace"],
       },
       colors: {
         background: "hsl(var(--background))",
