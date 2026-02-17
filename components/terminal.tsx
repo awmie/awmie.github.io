@@ -296,7 +296,7 @@ const FILE_SYSTEM: FileSystemItem = {
         "blackhole-sim": {
           name: "blackhole-sim",
           type: "directory",
-          url: "https://blackholeinspace.vercel.app",
+          url: "https://awmie.github.io/blackhole/",
           children: {
             "README.md": {
               name: "README.md",
@@ -324,7 +324,7 @@ const FILE_SYSTEM: FileSystemItem = {
             "url.txt": {
               name: "url.txt",
               type: "file",
-              content: ["https://blackholeinspace.vercel.app"]
+              content: ["https://awmie.github.io/blackhole/"]
             }
           }
         },

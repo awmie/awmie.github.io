@@ -38,7 +38,7 @@ const projects: Project[] = [
     name: "blackhole-sim",
     description: "Interactive black hole simulation with Three.js",
     tech: ["three.js", "webgl", "physics"],
-    url: "https://blackholeinspace.vercel.app",
+    url: "https://awmie.github.io/blackhole/",
     status: "active"
   },
   {
