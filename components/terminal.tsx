@@ -190,74 +190,6 @@ const FILE_SYSTEM: FileSystemItem = {
       name: "projects",
       type: "directory",
       children: {
-        "threadai": {
-          name: "threadai",
-          type: "directory",
-          url: "https://threadai.youware.app/",
-          children: {
-            "README.md": {
-              name: "README.md",
-              type: "file",
-              content: [
-                "# ThreadAI",
-                "",
-                "AI workspace featuring nested chats, shared memory, and integrated web search.",
-                "",
-                "## Tech Stack",
-                "- React",
-                "- TypeScript",
-                "- Groq",
-                "",
-                "## Status",
-                "Active"
-              ]
-            },
-            "tech.txt": {
-              name: "tech.txt",
-              type: "file",
-              content: ["React, TypeScript, Groq, YouBase"]
-            },
-            "url.txt": {
-              name: "url.txt",
-              type: "file",
-              content: ["https://threadai.youware.app/"]
-            }
-          }
-        },
-        "vibechat": {
-          name: "vibechat",
-          type: "directory",
-          url: "https://vibechat.youware.app/",
-          children: {
-            "README.md": {
-              name: "README.md",
-              type: "file",
-              content: [
-                "# VibeChat",
-                "",
-                "A dedicated private communication platform built specifically for vibecoders at YouWare.",
-                "",
-                "## Tech Stack",
-                "- Next.js",
-                "- Real-time",
-                "- WebSockets",
-                "",
-                "## Status",
-                "Private"
-              ]
-            },
-            "tech.txt": {
-              name: "tech.txt",
-              type: "file",
-              content: ["Next.js, Real-time, WebSockets"]
-            },
-            "url.txt": {
-              name: "url.txt",
-              type: "file",
-              content: ["https://vibechat.youware.app/"]
-            }
-          }
-        },
         "kaoruko": {
           name: "kaoruko",
           type: "directory",
@@ -518,6 +450,12 @@ const COMMANDS = [
   { cmd: "neofetch", desc: "Show system info" },
   { cmd: "cowsay", desc: "ASCII cow with message" },
   { cmd: "fortune", desc: "Print random quote" },
+  { cmd: "history", desc: "Show command history" },
+  { cmd: "tree", desc: "Display directory tree (use -L N for depth)" },
+  { cmd: "head", desc: "Show first lines of a file (head -n N <file>)" },
+  { cmd: "tail", desc: "Show last lines of a file (tail -n N <file>)" },
+  { cmd: "wc", desc: "Count lines, words, characters in a file" },
+  { cmd: "grep", desc: "Search file for a pattern" },
   { cmd: "help", desc: "Show available commands" }
 ]
 
@@ -570,6 +508,16 @@ export default function Terminal() {
     return `awmie@computer:${path}$`
   }
 
+  const normalizePath = (base: string[], segments: string[]): string[] => {
+    const result = [...base]
+    for (const seg of segments) {
+      if (seg === "." || seg === "") continue
+      if (seg === "..") { if (result.length > 0) result.pop(); continue }
+      result.push(seg)
+    }
+    return result
+  }
+
   const resolvePath = (target: string): string[] | null => {
     if (target === "~" || target === "/home/awmie") return []
     if (target === ".") return [...currentPath]
@@ -580,19 +528,19 @@ export default function Terminal() {
     if (target === "-") return [...currentPath] // Previous dir (simplified)
     
     if (target.startsWith("~/")) {
-      return target.slice(2).split("/").filter(Boolean)
+      return normalizePath([], target.slice(2).split("/").filter(Boolean))
     }
     if (target.startsWith("/")) {
       const parts = target.slice(1).split("/").filter(Boolean)
       // Check if it's within home
       if (parts[0] === "home" && parts[1] === "awmie") {
-        return parts.slice(2)
+        return normalizePath([], parts.slice(2))
       }
       return null // Outside home not allowed
     }
     
     // Relative path
-    return [...currentPath, ...target.split("/").filter(Boolean)]
+    return normalizePath([...currentPath], target.split("/").filter(Boolean))
   }
 
   const findCommonPrefix = (strings: string[]): string => {
@@ -905,6 +853,194 @@ export default function Terminal() {
         output = [[segment(randomFortune, "green")]]
         break
 
+      case "history":
+        if (commandHistory.length === 0) {
+          output = [[segment("No commands in history.", "dim")]]
+        } else {
+          output = commandHistory.map((cmd, i) => [
+            segment(`  ${(i + 1).toString().padStart(4)}  ${cmd}`, "green")
+          ])
+        }
+        break
+
+      case "tree":
+        {
+          const maxDepth = args[0] === "-L" && args[1] ? parseInt(args[1]) : Infinity
+          if (isNaN(maxDepth) || maxDepth < 1) {
+            addError("tree: invalid depth specification")
+            break
+          }
+          const treeDir = getCurrentDir()
+          const treeOutput: string[] = []
+          const dirName = getFullPath()
+          treeOutput.push(dirName + "/")
+          const buildTree = (dir: FileSystemItem, prefix: string, depth: number) => {
+            if (depth > maxDepth) return
+            if (!dir.children) return
+            const items = Object.entries(dir.children).sort(([a], [b]) => a.localeCompare(b))
+            items.forEach(([name, item], idx) => {
+              const isLast = idx === items.length - 1
+              const connector = isLast ? "└── " : "├── "
+              treeOutput.push(prefix + connector + name + (item.type === "directory" ? "/" : ""))
+              if (item.type === "directory") {
+                const childPrefix = prefix + (isLast ? "    " : "│   ")
+                buildTree(item, childPrefix, depth + 1)
+              }
+            })
+          }
+          buildTree(treeDir, "", 1)
+          output = treeOutput.map(l => [segment(l, "green")])
+        }
+        break
+
+      case "head":
+      case "tail":
+        {
+          const isHead = baseCmd === "head"
+          let numLines = 10
+          let fileArg = args[0]
+          let argIdx = 0
+          if (args[0] === "-n" && args[1]) {
+            numLines = parseInt(args[1])
+            if (isNaN(numLines) || numLines < 1) {
+              addError(`${baseCmd}: invalid number of lines`)
+              break
+            }
+            fileArg = args[2]
+            argIdx = 2
+          } else if (args[0] === "-n") {
+            addError(`${baseCmd}: option requires an argument -- n`)
+            break
+          }
+          if (!fileArg) {
+            addError(`${baseCmd}: missing file operand`)
+            break
+          }
+          const htResolved = resolvePath(fileArg)
+          if (htResolved === null) {
+            addError(`${baseCmd}: ${fileArg}: Permission denied`)
+            break
+          }
+          let current: FileSystemItem = FILE_SYSTEM
+          let found = true
+          for (let i = 0; i < htResolved.length - 1; i++) {
+            if (current.children && current.children[htResolved[i]] && current.children[htResolved[i]].type === "directory") {
+              current = current.children[htResolved[i]]
+            } else {
+              found = false
+              break
+            }
+          }
+          if (found && current.children) {
+            const fileName = htResolved[htResolved.length - 1]
+            if (current.children[fileName] && current.children[fileName].type === "file") {
+              const content = current.children[fileName].content || []
+              const displayLines = isHead ? content.slice(0, numLines) : content.slice(-numLines)
+              output = displayLines.map(l => [segment(l, "green")])
+            } else {
+              addError(`${baseCmd}: ${fileArg}: No such file or directory`)
+            }
+          } else {
+            addError(`${baseCmd}: ${fileArg}: No such file or directory`)
+          }
+        }
+        break
+
+      case "wc":
+        {
+          const wcFile = args[0]
+          if (!wcFile) {
+            addError("wc: missing file operand")
+            break
+          }
+          const wcResolved = resolvePath(wcFile)
+          if (wcResolved === null) {
+            addError(`wc: ${wcFile}: Permission denied`)
+            break
+          }
+          let current: FileSystemItem = FILE_SYSTEM
+          let found = true
+          for (let i = 0; i < wcResolved.length - 1; i++) {
+            if (current.children && current.children[wcResolved[i]] && current.children[wcResolved[i]].type === "directory") {
+              current = current.children[wcResolved[i]]
+            } else {
+              found = false
+              break
+            }
+          }
+          if (found && current.children) {
+            const fileName = wcResolved[wcResolved.length - 1]
+            if (current.children[fileName] && current.children[fileName].type === "file") {
+              const content = current.children[fileName].content || []
+              const lines = content.length
+              const words = content.reduce((acc, l) => acc + (l.match(/\S+/g)?.length || 0), 0)
+              const chars = content.reduce((acc, l) => acc + l.length, 0)
+              output = [[segment(`${lines.toString().padStart(4)} ${words.toString().padStart(4)} ${chars.toString().padStart(4)} ${fileName}`, "green")]]
+            } else {
+              addError(`wc: ${wcFile}: No such file or directory`)
+            }
+          } else {
+            addError(`wc: ${wcFile}: No such file or directory`)
+          }
+        }
+        break
+
+      case "grep":
+        {
+          const grepPattern = args[0]
+          const grepFile = args[1]
+          if (!grepPattern) {
+            addError("grep: missing pattern")
+            break
+          }
+          if (!grepFile) {
+            addError("grep: missing file operand")
+            break
+          }
+          const grepResolved = resolvePath(grepFile)
+          if (grepResolved === null) {
+            addError(`grep: ${grepFile}: Permission denied`)
+            break
+          }
+          let current: FileSystemItem = FILE_SYSTEM
+          let found = true
+          for (let i = 0; i < grepResolved.length - 1; i++) {
+            if (current.children && current.children[grepResolved[i]] && current.children[grepResolved[i]].type === "directory") {
+              current = current.children[grepResolved[i]]
+            } else {
+              found = false
+              break
+            }
+          }
+          if (found && current.children) {
+            const fileName = grepResolved[grepResolved.length - 1]
+            if (current.children[fileName] && current.children[fileName].type === "file") {
+              const content = current.children[fileName].content || []
+              let matched = false
+              const grepOutput: ColoredSegment[][] = []
+              content.forEach((line, lineNum) => {
+                if (line.toLowerCase().includes(grepPattern.toLowerCase())) {
+                  matched = true
+                  grepOutput.push([
+                    segment(`${(lineNum + 1).toString().padStart(4)}: `, "dim"),
+                    segment(line, "green")
+                  ])
+                }
+              })
+              if (matched) {
+                output = grepOutput
+              } else {
+                addError("grep: no matches found")
+              }
+            } else {
+              addError(`grep: ${grepFile}: No such file or directory`)
+            }
+          } else {
+            addError(`grep: ${grepFile}: No such file or directory`)
+          }
+        }
+        break
+
       case "help":
         output = [
           [segment("Available commands:", "yellow")],
@@ -912,7 +1048,7 @@ export default function Terminal() {
           ...COMMANDS.map(c => [segment(`  ${c.cmd.padEnd(15)}`, "green"), segment(c.desc, "dim")]),
           [segment("", "green")],
           [segment("Navigation tips:", "yellow")],
-          [segment("  - Use 'cd projects' then 'cd threadai' to enter a project", "dim")],
+          [segment("  - Use 'cd projects' then 'cd kaoruko' to enter a project", "dim")],
           [segment("  - Use 'cd ..' to go back", "dim")],
           [segment("  - Use 'open' to open project URL (or 'open <project-name>' from anywhere)", "dim")],
           [segment("  - Use 'cat README.md' to read project info", "dim")]
@@ -993,12 +1129,11 @@ export default function Terminal() {
           // Resolve the path
           let checkPath: string[]
           if (dirPath.startsWith("~")) {
-            checkPath = dirPath.slice(2).split("/").filter(Boolean)
+            checkPath = normalizePath([], dirPath.slice(2).split("/").filter(Boolean))
           } else if (dirPath.startsWith("/")) {
-            checkPath = dirPath.slice(1).split("/").filter(Boolean)
+            checkPath = normalizePath([], dirPath.slice(1).split("/").filter(Boolean))
           } else {
-            // Relative path from current directory
-            checkPath = [...currentPath, ...dirPath.split("/").filter(Boolean)]
+            checkPath = normalizePath([...currentPath], dirPath.split("/").filter(Boolean))
           }
           
           // Navigate to target directory
@@ -1018,7 +1153,7 @@ export default function Terminal() {
         }
         
         // Complete file/directory
-        if (baseCmd === "cd" || baseCmd === "cat" || baseCmd === "ls") {
+        if (baseCmd === "cd" || baseCmd === "cat" || baseCmd === "ls" || baseCmd === "head" || baseCmd === "tail" || baseCmd === "wc" || baseCmd === "grep") {
           const children = targetDir.children ? Object.keys(targetDir.children) : []
           matches = children.filter(name => name.startsWith(argToComplete)).map(name => {
             if (targetDir.children?.[name]?.type === "directory") {

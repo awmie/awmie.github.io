@@ -14,20 +14,6 @@ interface Project {
 
 const projects: Project[] = [
   {
-    name: "threadai",
-    description: "AI workspace with nested chats and shared memory",
-    tech: ["react", "typescript", "groq"],
-    url: "https://threadai.youware.app/",
-    status: "active"
-  },
-  {
-    name: "vibechat",
-    description: "Private communication platform for developers",
-    tech: ["next.js", "real-time", "websockets"],
-    url: "https://vibechat.youware.app/",
-    status: "private"
-  },
-  {
     name: "kaoruko",
     description: "Real-time reaction chat with prompt limits",
     tech: ["react", "ai", "firebase"],
