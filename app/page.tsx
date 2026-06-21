@@ -76,15 +76,7 @@ export default function Home() {
               Amritava Kole
             </h1>
             <p className="text-green-500/80 text-sm sm:text-base">
-              Founding Creator at{" "}
-              <a 
-                href="https://www.youware.com/profile/SyHjN1J4MsNe5jDG08GwmjUgv293" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="terminal-link"
-              >
-                YouWare
-              </a>
+              awkwardly building things on the internet
             </p>
           </div>
           

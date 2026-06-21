@@ -160,7 +160,7 @@ const FILE_SYSTEM: FileSystemItem = {
           content: [
             "Amritava Kole",
             "",
-            "Founding Creator at YouWare",
+            "awkwardly building things on the internet",
             "Developer based in India",
             "",
             "Focus: AI, WebGL, Real-time Systems",
