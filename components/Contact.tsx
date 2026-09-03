@@ -40,12 +40,12 @@ export default function Contact() {
                       href={social.url}
                       target={isEmail ? undefined : "_blank"}
                       rel={isEmail ? undefined : "noopener noreferrer"}
-                      className="group relative inline-flex items-baseline gap-4 font-mono text-sm text-bone transition-colors duration-300 hover:text-accent"
+                      className="group relative flex items-baseline gap-3 font-mono text-xs text-bone transition-colors duration-300 hover:text-accent md:gap-4 md:text-sm"
                     >
-                      <span className="w-24 shrink-0 text-[10px] uppercase tracking-wide text-dim">
+                      <span className="w-16 shrink-0 text-[10px] uppercase tracking-wide text-dim md:w-24">
                         {social.name}
                       </span>
-                      <span className={isEmail ? "text-accent" : undefined}>
+                      <span className={`min-w-0 break-all ${isEmail ? "text-accent" : ""}`}>
                         {social.handle}
                       </span>
                       <ArrowUpRight

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Instrument_Serif, Inter, JetBrains_Mono, Press_Start_2P } from "next/font/google";
 import { site } from "@/lib/content";
 import "./globals.css";
@@ -77,7 +78,10 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${display.variable} ${pixel.variable} ${sans.variable} ${mono.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${display.variable} ${pixel.variable} ${sans.variable} ${mono.variable}`}>
+      <Script id="theme-init" strategy="beforeInteractive">
+        {`(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();`}
+      </Script>
       <body className="font-sans antialiased bg-ink text-bone">
         {children}
         <script

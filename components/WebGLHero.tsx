@@ -15,6 +15,7 @@ const FRAG = /* glsl */ `
   precision highp float;
   uniform float uTime;
   uniform vec2 uResolution;
+  uniform float uDark;
 
   float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453123); }
   float noise(vec2 p){
@@ -40,12 +41,14 @@ const FRAG = /* glsl */ `
     float vig = smoothstep(1.5, 0.2, length(p - 0.62));
 
     vec3 cream = vec3(0.925, 0.902, 0.839);
+    vec3 darkInk = vec3(0.055, 0.051, 0.043);
     vec3 amber = vec3(0.949, 0.663, 0.231);
     vec3 green = vec3(0.310, 0.620, 0.345);
     vec3 blue  = vec3(0.247, 0.561, 0.839);
     vec3 violet= vec3(0.608, 0.420, 0.827);
 
-    vec3 col = cream;
+    // base follows the theme: cream in light, near-black in dark
+    vec3 col = mix(cream, darkInk, uDark);
     col = mix(col, blue,   smoothstep(0.35, 0.75, n) * 0.85);
     col = mix(col, green,  smoothstep(0.45, 0.80, fbm(p - t + vec2(3.0, 1.0))) * 0.70);
     col = mix(col, amber,  smoothstep(0.55, 0.90, fbm(q * 1.5 + t)) * 0.60);
@@ -100,10 +103,18 @@ export default function WebGLHero() {
       uniforms: {
         uTime: { value: 0 },
         uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+        uDark: { value: document.documentElement.getAttribute("data-theme") === "dark" ? 1 : 0 },
       },
       depthWrite: false,
     })
     scene.add(new THREE.Mesh(planeGeo, planeMat))
+
+    // Re-tint the base when the theme toggles.
+    const onTheme = (e: Event) => {
+      const dark = (e as CustomEvent).detail === "dark"
+      planeMat.uniforms.uDark.value = dark ? 1 : 0
+    }
+    window.addEventListener("themechange", onTheme)
 
     const onResize = () => {
       const w = window.innerWidth
@@ -164,6 +175,7 @@ export default function WebGLHero() {
       stopLoop()
       io.disconnect()
       window.removeEventListener("resize", onResize)
+      window.removeEventListener("themechange", onTheme)
       document.removeEventListener("visibilitychange", onVisibility)
       planeGeo.dispose()
       planeMat.dispose()
@@ -177,8 +189,9 @@ export default function WebGLHero() {
       <div
         className="absolute inset-0"
         style={{
-          background:
-            "radial-gradient(120% 90% at 50% 0%, rgba(242,169,59,0.20) 0%, rgba(236,230,214,0) 55%), radial-gradient(80% 80% at 80% 20%, rgba(63,143,214,0.18) 0%, rgba(236,230,214,0) 60%), radial-gradient(90% 90% at 15% 78%, rgba(226,85,77,0.18) 0%, rgba(236,230,214,0) 55%), linear-gradient(180deg, #ece6d6 0%, #f0ead9 100%)",
+          backgroundColor: "var(--ink)",
+          backgroundImage:
+            "radial-gradient(120% 90% at 50% 0%, rgba(242,169,59,0.20) 0%, transparent 55%), radial-gradient(80% 80% at 80% 20%, rgba(63,143,214,0.18) 0%, transparent 60%), radial-gradient(90% 90% at 15% 78%, rgba(226,85,77,0.18) 0%, transparent 55%)",
         }}
       />
       <canvas

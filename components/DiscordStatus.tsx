@@ -3,11 +3,60 @@
 import { useEffect, useRef, useState } from "react"
 
 /* Slim, resilient live status chip. Connects to Lanyard once, fails fast,
-   backs off with a cap, and degrades to a graceful "offline" state instead
-   of spinning forever. */
+   backs off with a cap, and degrades to a graceful "offline" state. Shows the
+   current Discord activity too — Spotify track, playing/watching/competing —
+   not just online/idle/dnd. */
+
+interface LanyardActivity {
+  name?: string
+  type?: number
+  state?: string
+  details?: string
+}
+interface LanyardData {
+  discord_status?: "online" | "idle" | "dnd" | "offline"
+  listening_to_spotify?: boolean
+  spotify?: { song?: string; artist?: string } | null
+  activities?: LanyardActivity[]
+}
+
+const STATUS_LABEL: Record<string, string> = {
+  online: "online",
+  idle: "idle",
+  dnd: "do not disturb",
+  offline: "offline",
+}
+/* Dot colors: online green, idle yellow, dnd coral, offline black. */
+const DOT: Record<string, string> = {
+  online: "text-accent-3",
+  idle: "text-accent-2",
+  dnd: "text-accent",
+  offline: "text-bone",
+}
+const VERB: Record<number, string> = {
+  0: "playing",
+  2: "listening to",
+  3: "watching",
+  5: "competing in",
+}
+
+function describe(d: LanyardData): string {
+  if (d.listening_to_spotify && d.spotify?.song) {
+    return d.spotify.artist
+      ? `playing ${d.spotify.song} — ${d.spotify.artist}`
+      : `playing ${d.spotify.song}`
+  }
+  const act = (d.activities || []).find((a) => a.type !== 4) // skip custom status
+  if (act) {
+    const verb = VERB[act.type ?? 0] ?? "playing"
+    const label = act.name || act.details || act.state
+    if (label) return `${verb} ${label}`
+  }
+  return STATUS_LABEL[d.discord_status ?? "offline"] ?? "offline"
+}
 
 export default function DiscordStatus() {
-  const [data, setData] = useState<{ discord_status?: string } | null>(null)
+  const [data, setData] = useState<LanyardData | null>(null)
   const [state, setState] = useState<"loading" | "live" | "offline">("loading")
   const attempts = useRef(0)
   const failTimer = useRef<number | null>(null)
@@ -89,23 +138,12 @@ export default function DiscordStatus() {
     }
   }, [])
 
-  const status = data?.discord_status || "offline"
-  const LABEL: Record<string, string> = {
-    online: "online",
-    idle: "idle",
-    dnd: "do not disturb",
-    offline: "offline",
-  }
-  /* Dot colors: online green, idle yellow, dnd coral (Discord's red),
-     offline black. */
-  const DOT: Record<string, string> = {
-    online: "text-accent-3",
-    idle: "text-accent-2",
-    dnd: "text-accent",
-    offline: "text-bone",
-  }
   if (state === "loading")
-    return <span className="font-mono text-[10px] text-bone"><span className="text-dim">●</span> syncing…</span>
+    return (
+      <span className="font-mono text-[10px] text-bone">
+        <span className="text-dim">●</span> syncing…
+      </span>
+    )
   if (state === "offline" || !data)
     return (
       <span className="font-mono text-[10px] text-bone">
@@ -113,9 +151,11 @@ export default function DiscordStatus() {
       </span>
     )
 
+  const dotColor = DOT[data.discord_status ?? "offline"] ?? "text-bone"
   return (
-    <span className="font-mono text-[10px] text-bone">
-      <span className={DOT[status] ?? "text-bone"}>●</span> {LABEL[status] ?? status}
+    <span className="inline-flex max-w-[260px] items-center gap-1.5 font-mono text-[10px] text-bone">
+      <span className={dotColor}>●</span>
+      <span className="truncate">{describe(data)}</span>
     </span>
   )
 }

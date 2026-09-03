@@ -56,7 +56,7 @@ export default function HeroContent() {
 
           <motion.h1
             variants={item}
-            className="mt-6 font-pixel text-3xl leading-[1.15] tracking-wide text-bone md:text-5xl lg:text-6xl"
+            className="mt-6 font-pixel text-2xl leading-[1.2] tracking-wide text-bone break-words md:text-5xl lg:text-6xl"
           >
             {site.name}
           </motion.h1>

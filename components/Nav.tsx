@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { motion, useMotionValueEvent, useScroll } from "framer-motion"
+import ThemeToggle from "@/components/ThemeToggle"
 import { site } from "@/lib/content"
 
 const links = [
@@ -24,7 +25,7 @@ export default function Nav() {
         scrolled ? "glass" : "border-b border-transparent"
       }`}
     >
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between">
+      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 md:px-6">
         {/* Left — handle with a small accent dot */}
         <a
           href="#top"
@@ -38,12 +39,12 @@ export default function Nav() {
         </a>
 
         {/* Right — links + GitHub */}
-        <div className="flex items-center gap-6 md:gap-8">
+        <div className="flex items-center gap-2 sm:gap-6">
           {links.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="group relative inline-flex items-center px-2 py-1 font-mono text-[10px] uppercase tracking-wide text-bone transition-colors duration-300 hover:bg-accent hover:text-ink"
+              className="group relative inline-flex items-center px-1.5 py-1 font-mono text-[10px] uppercase tracking-wide text-bone transition-colors duration-300 hover:bg-accent hover:text-ink sm:px-2"
             >
               {/* clip window is exactly one line tall, so the duplicate only
                   appears while it rolls in — no leftover "reflection" */}
@@ -60,6 +61,7 @@ export default function Nav() {
               </span>
             </a>
           ))}
+          <ThemeToggle />
         </div>
       </nav>
     </motion.header>

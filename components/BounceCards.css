@@ -30,3 +30,15 @@
 .bounceCardsContainer .card:hover .image {
   filter: grayscale(0);
 }
+
+/* Fit the fan inside a phone viewport by scaling the whole stack down. */
+@media (max-width: 640px) {
+  .bounceCardsContainer {
+    transform: scale(0.5);
+  }
+}
+@media (min-width: 641px) and (max-width: 900px) {
+  .bounceCardsContainer {
+    transform: scale(0.72);
+  }
+}
