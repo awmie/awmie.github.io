@@ -2,189 +2,116 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  :root {
-    --background: 0 0% 0%;
-    --foreground: 142 100% 50%;
-    --card: 0 0% 0%;
-    --card-foreground: 142 100% 50%;
-    --popover: 0 0% 0%;
-    --popover-foreground: 142 100% 50%;
-    --primary: 142 100% 50%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 0 0% 10%;
-    --secondary-foreground: 142 100% 50%;
-    --muted: 0 0% 10%;
-    --muted-foreground: 142 30% 40%;
-    --accent: 0 0% 15%;
-    --accent-foreground: 142 100% 50%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 20%;
-    --input: 0 0% 15%;
-    --ring: 142 100% 50%;
-    --chart-1: 142 100% 50%;
-    --chart-2: 120 100% 50%;
-    --chart-3: 160 100% 50%;
-    --chart-4: 100 100% 50%;
-    --chart-5: 180 100% 50%;
-    --radius: 0px;
-    --terminal-green: #00ff41;
-    --terminal-dim: #008f11;
-    --terminal-dark: #003b00;
-  }
-}
-
 @layer base {
+  :root {
+    color-scheme: light;
+
+    /* --- colorful pixel-art theme on a grainy cream ground --- */
+    --ink: #ece6d6;          /* cream background */
+    --ink-2: #f6f1e4;        /* elevated cards / mattes */
+    --ink-3: #ded5c1;        /* deeper cream */
+    --bone: #000000;         /* ink text */
+    --muted: #6b6250;        /* secondary */
+    --dim: #97907d;          /* tertiary */
+    --accent: #e2554d;       /* vermillion — primary accent */
+    --accent-2: #f2a93b;     /* amber */
+    --accent-3: #4f9e58;     /* green */
+    --accent-4: #3f8fd6;     /* blue */
+    --accent-5: #9b6bd3;     /* violet */
+    --accent-soft: rgba(226, 85, 77, 0.13);
+    --line: rgba(36, 30, 20, 0.14);
+    --line-strong: rgba(36, 30, 20, 0.24);
+  }
+
   * {
-    @apply border-border;
+    border-color: var(--line);
   }
+
   html {
-    cursor: url('/pointer.svg') 16 16, auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
   }
+
   body {
-    @apply bg-black text-green-400;
-    cursor: url('/pointer.svg') 16 16, auto;
+    background-color: var(--ink);
+    color: var(--bone);
+    font-feature-settings: "ss01" on, "cv01" on;
   }
-   
-  /* I-beam cursor for text inputs and selectable text */
-  input, textarea, select, [contenteditable="true"], code, pre {
-    cursor: url('/text.svg') 16 16, text !important;
-  }
-  
-  /* I-beam cursor for all text content (but not links/buttons) */
-  p, span, h1, h2, h3, h4, h5, h6, div, section, article, li, td, th, label {
-    cursor: url('/text.svg') 16 16, text;
-  }
-  
-  /* Terminal specific - ensure text cursor works in terminal */
-  .font-mono, pre, code, .terminal-text {
-    cursor: url('/text.svg') 16 16, text !important;
-  }
-   
-  /* Override text cursor for interactive elements */
-  a, [role="link"] {
-    cursor: url('/hand.svg') 10 10, pointer !important;
-  }
-   
-  button, [role="button"], [type="button"], [type="submit"], [type="reset"], .cursor-pointer {
-    cursor: url('/pointer.svg') 16 16, pointer !important;
-  }
-  
+
   ::selection {
-    background: #00ff41;
-    color: #000;
+    background: var(--accent);
+    color: var(--ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--ink);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--ink-3);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--muted);
   }
 }
 
-/* Terminal cursor blink */
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
-}
+@layer components {
+  /* Fixed film-grain — multiply so it reads on the cream ground */
+  .grain::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    opacity: 0.34;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 300px 300px;
+  }
 
-.cursor-blink {
-  animation: blink 1s infinite;
-}
+  /* Chunky pixel-corner step used on selected blocks */
+  .pixel-step {
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
 
-.cursor-blink::after {
-  content: '█';
-}
+  .glass {
+    background: rgba(236, 230, 214, 0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
 
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #000;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #003b00;
-  border: 1px solid #000;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #00ff41;
-}
-
-/* Terminal link styling */
-.terminal-link {
-  color: #00ff41;
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s;
-}
-
-.terminal-link:hover {
-  border-bottom-color: #00ff41;
-}
-
-/* Command prompt style */
-.prompt {
-  color: #008f11;
-}
-
-.prompt-user {
-  color: #00ff41;
-  font-weight: 500;
-}
-
-/* Terminal window */
-.terminal-window {
-  border: 1px solid #003b00;
-  background: #000;
-}
-
-.terminal-header {
-  background: #001100;
-  border-bottom: 1px solid #003b00;
-  padding: 8px 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.terminal-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 1px solid #003b00;
-}
-
-.terminal-dot.red { background: #ff5f56; }
-.terminal-dot.yellow { background: #ffbd2e; }
-.terminal-dot.green { background: #27ca40; }
-
-/* Mobile optimizations */
-@media (max-width: 640px) {
-  .cursor-blink::after {
-    font-size: 10px;
+  .hairline {
+    height: 1px;
+    background: var(--line);
   }
 }
 
-/* Prevent zoom on input focus for iOS */
-input, textarea {
-  font-size: 16px;
-}
-
-/* Simple green cursor */
-input, textarea {
-  caret-color: #00ff41;
-}
-
-/* Touch manipulation for better mobile experience */
-.touch-manipulation {
-  touch-action: manipulation;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-/* Ensure input is selectable when focused */
-.touch-manipulation input {
-  -webkit-user-select: text;
-  user-select: text;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .grain::before {
+    background-image: none;
+    opacity: 0.2;
+  }
 }
