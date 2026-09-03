@@ -50,20 +50,15 @@
     border-radius: 2px;
   }
 
+  /* No visible scrollbar — scrolling still works (clean, awwwards-style). */
+  html {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE / legacy Edge */
+  }
   ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--ink);
-  }
-  ::-webkit-scrollbar-thumb {
-    background: var(--ink-3);
-    border: 2px solid var(--ink);
-    border-radius: 999px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--muted);
+    width: 0;
+    height: 0;
+    display: none; /* Chrome / Safari / new Edge */
   }
 }
 
