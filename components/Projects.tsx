@@ -30,7 +30,7 @@ export default function Projects() {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block border-t border-line py-8 transition-colors duration-500 ease-out hover:bg-ink-2 md:py-12"
+                className="group block border-t border-line py-8 hover:bg-ink-2 md:py-12"
               >
                 <div className="grid gap-6 md:grid-cols-12">
                   {/* mono index */}
@@ -39,7 +39,7 @@ export default function Projects() {
                   </div>
 
                   {/* serif title */}
-                  <h3 className="font-pixel text-lg leading-snug text-bone transition-colors duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-accent md:col-span-4 md:text-3xl">
+                  <h3 className="font-pixel text-lg leading-snug text-bone group-hover:text-accent md:col-span-4 md:text-3xl">
                     {project.name}
                     <span className="text-dim">/</span>
                   </h3>
@@ -63,7 +63,7 @@ export default function Projects() {
                         ))}
                       </div>
                       <ArrowUpRight
-                        className="h-4 w-4 text-muted transition-colors duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-accent"
+                        className="h-4 w-4 text-muted group-hover:text-accent"
                         aria-hidden="true"
                       />
                     </div>

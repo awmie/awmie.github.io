@@ -1,0 +1,1 @@
+self.__REACT_LOADABLE_MANIFEST="{\"components/ClientHero.tsx -> @/components/WebGLHero\":{\"id\":\"components/ClientHero.tsx -> @/components/WebGLHero\",\"files\":[\"static/chunks/_app-pages-browser_components_WebGLHero_tsx.js\"]}}"

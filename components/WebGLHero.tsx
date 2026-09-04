@@ -96,6 +96,9 @@ export default function WebGLHero() {
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1)
 
     // --- gradient plane ---
+    const initialDark = document.documentElement.getAttribute("data-theme") === "dark" ? 1 : 0
+    let uDarkTarget = initialDark
+    let uDarkCurrent = initialDark
     const planeGeo = new THREE.PlaneGeometry(2, 2)
     const planeMat = new THREE.ShaderMaterial({
       vertexShader: VERT,
@@ -103,16 +106,15 @@ export default function WebGLHero() {
       uniforms: {
         uTime: { value: 0 },
         uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-        uDark: { value: document.documentElement.getAttribute("data-theme") === "dark" ? 1 : 0 },
+        uDark: { value: initialDark },
       },
       depthWrite: false,
     })
     scene.add(new THREE.Mesh(planeGeo, planeMat))
 
-    // Re-tint the base when the theme toggles.
+    // Ease the base toward the new theme instead of snapping.
     const onTheme = (e: Event) => {
-      const dark = (e as CustomEvent).detail === "dark"
-      planeMat.uniforms.uDark.value = dark ? 1 : 0
+      uDarkTarget = (e as CustomEvent).detail === "dark" ? 1 : 0
     }
     window.addEventListener("themechange", onTheme)
 
@@ -138,7 +140,9 @@ export default function WebGLHero() {
       if (!running) return
       raf = requestAnimationFrame(loop)
       const t = clock.getElapsedTime()
+      uDarkCurrent += (uDarkTarget - uDarkCurrent) * 0.07 // ease the theme tint (~0.7s, matches the CSS)
       planeMat.uniforms.uTime.value = t
+      planeMat.uniforms.uDark.value = uDarkCurrent
       renderer.render(scene, camera)
     }
     const startLoop = () => {

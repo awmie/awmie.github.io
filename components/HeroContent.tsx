@@ -1,7 +1,6 @@
 "use client"
 
 import { motion, type Variants } from "framer-motion"
-import DiscordStatus from "@/components/DiscordStatus"
 import { site } from "@/lib/content"
 
 const container: Variants = {
@@ -84,10 +83,6 @@ export default function HeroContent() {
               ▼
             </motion.span>
             Scroll
-          </div>
-
-          <div className="pointer-events-auto">
-            <DiscordStatus />
           </div>
         </div>
       </div>

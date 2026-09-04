@@ -44,7 +44,7 @@ export default function Nav() {
             <a
               key={link.href}
               href={link.href}
-              className="group relative inline-flex items-center px-1.5 py-1 font-mono text-[10px] uppercase tracking-wide text-bone transition-colors duration-300 hover:bg-accent hover:text-ink sm:px-2"
+              className="group relative inline-flex items-center px-1.5 py-1 font-mono text-[10px] uppercase tracking-wide text-bone hover:bg-accent hover:text-ink sm:px-2"
             >
               {/* clip window is exactly one line tall, so the duplicate only
                   appears while it rolls in — no leftover "reflection" */}

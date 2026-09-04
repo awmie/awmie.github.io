@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="flex items-center gap-6">
           <a
             href="#"
-            className="font-mono text-[10px] uppercase tracking-wide text-muted transition-colors hover:text-accent"
+            className="font-mono text-[10px] uppercase tracking-wide text-muted hover:text-accent"
           >
             Back to top &uarr;
           </a>

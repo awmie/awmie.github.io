@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Register the theme colors as interpolatable properties so a theme switch is
+   ONE smooth animation on :root that every element reads in lockstep. This is
+   the only approach that keeps framer-motion elements (hero, About) in sync —
+   a per-element `transition` on those re-targets every frame and drifts. */
+@property --ink { syntax: "<color>"; inherits: true; initial-value: #ece6d6; }
+@property --ink-2 { syntax: "<color>"; inherits: true; initial-value: #f6f1e4; }
+@property --ink-3 { syntax: "<color>"; inherits: true; initial-value: #ded5c1; }
+@property --bone { syntax: "<color>"; inherits: true; initial-value: #000000; }
+@property --muted { syntax: "<color>"; inherits: true; initial-value: #6b6250; }
+@property --dim { syntax: "<color>"; inherits: true; initial-value: #97907d; }
+@property --accent { syntax: "<color>"; inherits: true; initial-value: #e2554d; }
+@property --accent-2 { syntax: "<color>"; inherits: true; initial-value: #f2a93b; }
+@property --accent-3 { syntax: "<color>"; inherits: true; initial-value: #4f9e58; }
+@property --accent-4 { syntax: "<color>"; inherits: true; initial-value: #3f8fd6; }
+@property --accent-5 { syntax: "<color>"; inherits: true; initial-value: #9b6bd3; }
+@property --accent-soft { syntax: "<color>"; inherits: true; initial-value: rgba(226, 85, 77, 0.13); }
+@property --line { syntax: "<color>"; inherits: true; initial-value: rgba(36, 30, 20, 0.14); }
+@property --line-strong { syntax: "<color>"; inherits: true; initial-value: rgba(36, 30, 20, 0.24); }
+@property --glass { syntax: "<color>"; inherits: true; initial-value: rgba(236, 230, 214, 0.72); }
+@property --grain-opacity { syntax: "<number>"; inherits: true; initial-value: 0.34; }
+
 @layer base {
   :root {
     color-scheme: light;
@@ -24,6 +45,15 @@
     --glass: rgba(236, 230, 214, 0.72);
     --grain-blend: multiply;
     --grain-opacity: 0.34;
+
+    /* Animate the theme tokens themselves — one smooth cross-fade for all. */
+    transition:
+      --ink 0.5s ease, --ink-2 0.5s ease, --ink-3 0.5s ease,
+      --bone 0.5s ease, --muted 0.5s ease, --dim 0.5s ease,
+      --accent 0.5s ease, --accent-2 0.5s ease, --accent-3 0.5s ease,
+      --accent-4 0.5s ease, --accent-5 0.5s ease, --accent-soft 0.5s ease,
+      --line 0.5s ease, --line-strong 0.5s ease, --glass 0.5s ease,
+      --grain-opacity 0.5s ease;
   }
 
   /* --- dark mode: same tokens, inverted ground + brighter accents --- */

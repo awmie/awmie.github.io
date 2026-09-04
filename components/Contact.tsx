@@ -40,19 +40,21 @@ export default function Contact() {
                       href={social.url}
                       target={isEmail ? undefined : "_blank"}
                       rel={isEmail ? undefined : "noopener noreferrer"}
-                      className="group relative flex items-baseline gap-3 font-mono text-xs text-bone transition-colors duration-300 hover:text-accent md:gap-4 md:text-sm"
+                      className="group relative flex items-baseline gap-3 font-mono text-xs text-bone hover:text-accent md:gap-4 md:text-sm"
                     >
                       <span className="w-16 shrink-0 text-[10px] uppercase tracking-wide text-dim md:w-24">
                         {social.name}
                       </span>
-                      <span className={`min-w-0 break-all ${isEmail ? "text-accent" : ""}`}>
-                        {social.handle}
+                      <span className="relative inline-flex min-w-0 items-baseline gap-2">
+                        <span className={`min-w-0 break-all ${isEmail ? "text-accent" : ""}`}>
+                          {social.handle}
+                        </span>
+                        <ArrowUpRight
+                          className="h-4 w-4 -translate-x-1 text-dim opacity-70 transition-[transform,opacity] duration-300 group-hover:translate-x-0 group-hover:text-accent group-hover:opacity-100"
+                          aria-hidden="true"
+                        />
+                        <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-accent transition-[width] duration-300 group-hover:w-full" />
                       </span>
-                      <ArrowUpRight
-                        className="h-4 w-4 -translate-x-1 text-dim opacity-70 transition-all duration-300 group-hover:translate-x-0 group-hover:text-accent group-hover:opacity-100"
-                        aria-hidden="true"
-                      />
-                      <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-accent transition-all duration-300 group-hover:w-full" />
                     </a>
                   </li>
                 )

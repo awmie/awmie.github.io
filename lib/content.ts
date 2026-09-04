@@ -85,13 +85,11 @@ interface Photo {
   alt: string
 }
 
-/* Horizontal-scroll gallery images. Placeholder grayscale shots — swap the
-   URLs for your own photos (any hosted image, e.g. /photos/01.jpg). */
+/* "Selected frames" — your own photos, served from /public/photos (resized to
+   800×800 squares). Drop new shots in there and add them here. */
 export const photos: Photo[] = [
-  { src: "https://picsum.photos/id/1018/1000/1250?grayscale", alt: "Mountain ridge" },
-  { src: "https://picsum.photos/id/1015/1000/1250?grayscale", alt: "River through a valley" },
-  { src: "https://picsum.photos/id/1035/1000/1250?grayscale", alt: "Misty mountain lake" },
-  { src: "https://picsum.photos/id/1043/1000/1250?grayscale", alt: "Street scene" },
-  { src: "https://picsum.photos/id/1074/1000/1250?grayscale", alt: "Coastline" },
-  { src: "https://picsum.photos/id/1084/1000/1250?grayscale", alt: "Wet road at dusk" },
+  { src: "/photos/frame-1.jpg", alt: "Frame 01" },
+  { src: "/photos/frame-2.jpg", alt: "Frame 02" },
+  { src: "/photos/frame-3.jpg", alt: "Frame 03" },
+  { src: "/photos/frame-4.jpg", alt: "Frame 04" },
 ]

@@ -16,6 +16,9 @@ export default function ThemeToggle() {
   const toggle = () => {
     const next = theme === "dark" ? "light" : "dark"
     setTheme(next)
+    // The permanent base `*` color transition (globals.css) eases the whole
+    // page on this change — no temporary class needed (that class was the
+    // thing causing the snap).
     document.documentElement.setAttribute("data-theme", next)
     try {
       localStorage.setItem("theme", next)
@@ -30,7 +33,7 @@ export default function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-      className="group relative inline-flex items-center px-1.5 py-1 text-bone transition-colors duration-300 hover:text-accent sm:px-2"
+      className="group relative inline-flex items-center px-1.5 py-1 text-bone hover:text-accent sm:px-2"
     >
       {theme === "dark" ? (
         <Sun className="h-[15px] w-[15px]" strokeWidth={1.75} />

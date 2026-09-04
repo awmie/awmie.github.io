@@ -1,0 +1,24 @@
+.text-loop {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.text-loop-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Same font on the loop text and the hidden measure text so the
+   repetition count is measured correctly. */
+.text-loop-text,
+.text-loop-measure {
+  font-family: var(--font-pixel);
+  user-select: none;
+}
+
+.text-loop-measure {
+  visibility: hidden;
+  pointer-events: none;
+}

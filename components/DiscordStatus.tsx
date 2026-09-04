@@ -46,12 +46,17 @@ function describe(d: LanyardData): string {
       ? `playing ${d.spotify.song} — ${d.spotify.artist}`
       : `playing ${d.spotify.song}`
   }
-  const act = (d.activities || []).find((a) => a.type !== 4) // skip custom status
+  const acts = d.activities || []
+  // A real activity (game / app / watching) takes priority.
+  const act = acts.find((a) => a.type !== 4)
   if (act) {
     const verb = VERB[act.type ?? 0] ?? "playing"
     const label = act.name || act.details || act.state
     if (label) return `${verb} ${label}`
   }
+  // Otherwise show a custom status (type 4) if one is set.
+  const custom = acts.find((a) => a.type === 4)
+  if (custom?.state) return custom.state
   return STATUS_LABEL[d.discord_status ?? "offline"] ?? "offline"
 }
 
