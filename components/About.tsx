@@ -1,4 +1,5 @@
 import Reveal from "@/components/Reveal"
+import TiltedCard from "@/components/TiltedCard"
 import { site } from "@/lib/content"
 
 const DETAILS = [
@@ -39,25 +40,36 @@ export default function About() {
             </p>
 
             <div className="md:col-span-5">
-              <dl className="rounded-2xl border border-line bg-ink-2 p-5 font-mono text-[10px]">
-                <div className="space-y-4">
-                  {DETAILS.map((detail) => (
-                    <div key={detail.label} className="flex items-baseline gap-4">
-                      <dt className="w-20 shrink-0 uppercase tracking-wide text-dim">
-                        {detail.label}
-                      </dt>
-                      <dd className="flex-1 leading-relaxed text-bone">{detail.value}</dd>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-5 flex items-center gap-2.5 border-t border-line pt-5">
-                  <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-                  </span>
-                  <span className="text-accent">{site.availability}</span>
-                </div>
-              </dl>
+              <TiltedCard
+                containerWidth="100%"
+                containerHeight="auto"
+                imageWidth="100%"
+                imageHeight="auto"
+                rotateAmplitude={12}
+                scaleOnHover={1.06}
+                showMobileWarning={false}
+                showTooltip={false}
+              >
+                <dl className="rounded-2xl border border-line bg-ink-2 p-5 font-mono text-[10px]">
+                  <div className="space-y-4">
+                    {DETAILS.map((detail) => (
+                      <div key={detail.label} className="flex items-baseline gap-4">
+                        <dt className="w-20 shrink-0 uppercase tracking-wide text-dim">
+                          {detail.label}
+                        </dt>
+                        <dd className="flex-1 leading-relaxed text-bone">{detail.value}</dd>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-5 flex items-center gap-2.5 border-t border-line pt-5">
+                    <span className="relative flex h-2 w-2">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+                    </span>
+                    <span className="text-accent">{site.availability}</span>
+                  </div>
+                </dl>
+              </TiltedCard>
             </div>
           </div>
         </Reveal>

@@ -25,13 +25,13 @@ export default function Home() {
         <div className="absolute inset-0">
           <ClientHero />
         </div>
-        <div className="relative z-10 flex min-h-screen items-center">
+        <div className="absolute inset-0 z-10 flex items-center">
           <HeroContent />
         </div>
       </header>
 
       {/* Stack loop riding just below the hero, above the About section */}
-      <div className="relative z-10 -mt-8 md:-mt-[110px]">
+      <div className="relative z-10 -mt-[8.334vw]">
         <TextLoop
           text={stack.join(" ✦ ")}
           shape="wave"
@@ -47,7 +47,7 @@ export default function Home() {
           ribbon
           ribbonColor="var(--accent)"
           ribbonWidth={46}
-          pauseOnHover
+          pauseOnHover={false}
         />
       </div>
 

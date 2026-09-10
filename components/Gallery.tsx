@@ -8,10 +8,10 @@ import { photos } from "@/lib/content"
 const images = photos.map((p) => p.src)
 
 const transformStyles = [
-  "rotate(-7deg) translate(-210px)",
-  "rotate(-2.5deg) translate(-70px)",
-  "rotate(2.5deg) translate(70px)",
-  "rotate(7deg) translate(210px)",
+  "rotate(-7deg) translate(-250px)",
+  "rotate(-2.5deg) translate(-84px)",
+  "rotate(2.5deg) translate(84px)",
+  "rotate(7deg) translate(250px)",
 ]
 
 export default function Gallery() {
@@ -30,11 +30,11 @@ export default function Gallery() {
         </Reveal>
 
         <Reveal>
-          <div className="flex justify-center py-10">
+          <div className="relative z-[70] flex justify-center py-10">
             <BounceCards
               images={images}
-              containerWidth={520}
-              containerHeight={260}
+              containerWidth={620}
+              containerHeight={310}
               animationDelay={0.2}
               animationStagger={0.08}
               easeType="elastic.out(1, 0.5)"

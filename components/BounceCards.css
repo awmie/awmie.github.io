@@ -6,10 +6,10 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 180px;
-  height: 180px;
-  margin: -90px 0 0 -90px;
-  padding: 8px;
+  width: 220px;
+  height: 220px;
+  margin: -110px 0 0 -110px;
+  padding: 10px;
   background: var(--ink-2);
   border: 1px solid var(--line-strong);
   box-shadow: 0 10px 30px rgba(36, 30, 20, 0.12);

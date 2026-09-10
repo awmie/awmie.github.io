@@ -43,7 +43,7 @@ function Tagline() {
 
 export default function HeroContent() {
   return (
-    <section className="relative z-10 flex min-h-screen flex-col justify-center">
+    <section className="relative flex h-full flex-col justify-center">
       <div className="relative mx-auto w-full max-w-6xl px-6 pb-32 pt-44 md:pb-36">
         <motion.div variants={container} initial="hidden" animate="show">
           <motion.p
@@ -67,13 +67,11 @@ export default function HeroContent() {
             <Tagline />
           </motion.p>
 
-        </motion.div>
-      </div>
-
-      {/* Bottom strip — anchored to the hero's lower edge */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0">
-        <div className="mx-auto flex w-full max-w-6xl items-end justify-between px-6 pb-8">
-          <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-wide text-bone">
+          {/* Scroll cue — sits right beneath the tagline */}
+          <motion.div
+            variants={item}
+            className="pointer-events-none mt-16 flex items-center gap-2 font-mono text-xs uppercase tracking-wide text-bone"
+          >
             <motion.span
               animate={{ y: [0, 6, 0] }}
               transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
@@ -83,8 +81,9 @@ export default function HeroContent() {
               ▼
             </motion.span>
             Scroll
-          </div>
-        </div>
+          </motion.div>
+
+        </motion.div>
       </div>
     </section>
   )

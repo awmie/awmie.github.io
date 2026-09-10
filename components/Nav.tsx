@@ -21,7 +21,7 @@ export default function Nav() {
       initial={{ opacity: 0, y: -16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed inset-x-0 top-0 z-50 px-6 transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-[80] px-6 transition-all duration-300 ${
         scrolled ? "glass" : "border-b border-transparent"
       }`}
     >
@@ -44,17 +44,17 @@ export default function Nav() {
             <a
               key={link.href}
               href={link.href}
-              className="group relative inline-flex items-center px-1.5 py-1 font-mono text-[10px] uppercase tracking-wide text-bone hover:bg-accent hover:text-ink sm:px-2"
+              className="group relative inline-flex items-center px-1.5 py-1 font-mono text-[10px] uppercase tracking-wide text-bone transition-colors duration-300 hover:bg-accent hover:text-ink sm:px-2"
             >
               {/* clip window is exactly one line tall, so the duplicate only
                   appears while it rolls in — no leftover "reflection" */}
               <span className="relative block overflow-hidden leading-none">
-                <span className="block transition-transform duration-300 ease-out group-hover:-translate-y-[1em]">
+                <span className="block transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-[1.2em] group-hover:opacity-0">
                   {link.label}
                 </span>
                 <span
                   aria-hidden="true"
-                  className="absolute inset-x-0 top-0 block translate-y-[1em] transition-transform duration-300 ease-out group-hover:translate-y-0"
+                  className="absolute inset-x-0 top-0 block translate-y-[1.2em] opacity-0 blur-[2px] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 group-hover:opacity-100 group-hover:blur-0"
                 >
                   {link.label}
                 </span>
